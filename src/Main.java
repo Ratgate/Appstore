@@ -1,5 +1,6 @@
 import java.util.Scanner;
 
+
 public class Main {
     private static Scanner readDecision = new Scanner(System.in);
     private static int decision;

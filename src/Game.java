@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 public class Game {
@@ -10,7 +11,7 @@ public class Game {
     public Boolean endGame = false;
     public int projectSearchingProgress = 0;
     public Boolean projectSearchingPlayerContribution = false;
-    public ArrayList<Project> available;
+    public ArrayList<Project> available; // = new ArrayList<>(new Project());
     public ArrayList<Client> clients;
 
     public void makeRoom(){
@@ -41,17 +42,24 @@ public class Game {
 
     public void playGame(){
         while(!endGame){
-            for (Player player : players) {
+            if(players.size() > 0){
+                for (Player player : players) {
                     playTurn(player);
                 }
+            } else {
+                endGame = true;
+                System.out.println("Wszyscy gracze ponieśli klęskę");
+                break;
+            }
+            players.removeIf(x -> x.defeated);
             advanceDay();
             }
         }
 
 
     public void playTurn(Player player){
-        int decision;
-        while (true){
+        int decision = -1;
+        while (decision <= 0){
             makeRoom();
             System.out.println(dayOfTheWeek() + " " + today);
             System.out.println("Tura gracza " + player.name + "\n");
@@ -71,31 +79,32 @@ public class Game {
 
             switch (decision){
                 case 1:{
-                    return;
+                    break;
                 }
                 case 2:{
-                    return;
+                    break;
                 }
                 case 3:{
-                    return;
+                    break;
                 }
                 case 4:{
-                    return;
+                    break;
                 }
                 case 5:{
-                    return;
+                    break;
                 }
                 case 6:{
-                    return;
+                    break;
                 }
                 case 7:{
-                    return;
+                    break;
                 }
                 case 8:{
-                    return;
+                    player.bureaucracy--;
+                    break;
                 }
                 case 9:{
-                    return;
+                    break;
                 }
                 case 0:{
                     lookTroughStuff(player);
@@ -105,8 +114,28 @@ public class Game {
                 }
             }
         }
-    //    player.isDefeated()
-    //    player.isVictorious()
+        if(!isWeekend()){
+            officeDoItsWork();
+        }
+
+        if(today.getMonth() != today.plusDays(1).getMonth()){
+            player.salesTax();
+        }
+
+        if(player.isVictorious()){
+            System.out.println(player.name + " Wygrał grę");
+            endGame = true;
+        }
+        if(today.getMonth() != today.plusDays(1).getMonth()){
+            if(player.bureaucracy > 0){
+                player.defeated = true;
+            } else {
+                player.bureaucracy = 2;
+            }
+        }
+        if(player.isDefeated()){
+            player.defeated = true;
+        }
     }
 
     public void lookTroughStuff(Player player){
@@ -140,10 +169,10 @@ public class Game {
                     return;
                 }
             }
-
-
         }
+    }
 
+    public void officeDoItsWork(){
 
     }
 

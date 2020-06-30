@@ -1,2 +1,2 @@
-public class Tester {
+public class Tester extends Employee {
 }

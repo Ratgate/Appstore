@@ -1,3 +1,4 @@
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Project {
     public Boolean acquiredBySeller;
@@ -9,13 +10,19 @@ public class Project {
     public Double payment;
     public Double delayFee;
     public Double advance;
-    public Integer frontendWorkDays;
-    public Integer backendWorkDays;
-    public Integer databaseWorkDays;
-    public Integer mobileWorkDays;
-    public Integer wordpressWorkDays;
-    public Integer prestashopWorkDays;
+    public Integer frontendWorkDays = 0;
+    public Integer backendWorkDays = 0;
+    public Integer databaseWorkDays = 0;
+    public Integer mobileWorkDays = 0;
+    public Integer wordpressWorkDays = 0;
+    public Integer prestashopWorkDays = 0;
     public Complexity complexity;
+
+    public enum Complexity{
+        LOW,
+        MEDIUM,
+        COMPLEX
+    }
 
     @Override
     public String toString() {
@@ -37,15 +44,16 @@ public class Project {
                 '}';
     }
 
-    public enum Complexity{
-        LOW,
-        MEDIUM,
-        COMPLEX
-    }
-    public Project(Boolean acquiredBySeller, String name, Client client, Integer deadline, Integer paymentTime, Double payment, Double delayFee,Double advance, Integer frontendWorkDays, Integer backendWorkDays, Integer databaseWorkDays, Integer mobileWorkDays, Integer wordpressWorkDays, Integer prestashopWorkDays, Complexity complexity) {
+
+    public Project(Boolean acquiredBySeller, Client client,      Integer deadline, Integer paymentTime, Double payment, Double delayFee, Integer frontendWorkDays, Integer backendWorkDays, Integer databaseWorkDays, Integer mobileWorkDays, Integer wordpressWorkDays, Integer prestashopWorkDays, Double advance) {
+        this.name = generateName();
+        this.complexity = randomComplex();
+        this.playerHasContributed = false;
         this.acquiredBySeller = acquiredBySeller;
-        this.name = name;
         this.client = client;
+
+
+
         this.deadline = deadline;
         this.paymentTime = paymentTime;
         this.payment = payment;
@@ -56,7 +64,24 @@ public class Project {
         this.mobileWorkDays = mobileWorkDays;
         this.wordpressWorkDays = wordpressWorkDays;
         this.prestashopWorkDays = prestashopWorkDays;
-        this.complexity = complexity;
         this.advance = advance;
+    }
+
+    public Complexity randomComplex(){
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 10 + 1);
+        if(randomNum < 6){
+            return Complexity.LOW;
+        } else if(randomNum < 9){
+            return Complexity.MEDIUM;
+        } else {
+            return Complexity.COMPLEX;
+        }
+    }
+
+    public String generateName(){
+        String[] first = {"Fascynujący", "Prowokacyjny", "Elegancki", "Wspierający", "Szybki", "Skomplikowany", "Wygenerowany", "Niestandardowy", "Pospolity"};
+        String[] second = {" system", " kalendarz", " sklep", " przybornik", " aplikacja", " sieć neutronowa", " samouczący się program", " zadanie domowe"};
+        String[] third = {" bankowy", " społeczny", " rządowy", " sektoru publicznego", " chirurgiczny", " przemysłowy", " wojskowy"};
+        return first[ThreadLocalRandom.current().nextInt(0, first.length)] + second[ThreadLocalRandom.current().nextInt(0, second.length)] + third[ThreadLocalRandom.current().nextInt(0, third.length)];
     }
 }
