@@ -1,21 +1,20 @@
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Project {
+    final static Double ADVANCE_RATIO = 0.4;
+    final static Double DELAY_FEE_RATIO = 0.8;
+    final static Integer WAITING_FOR_PAYMENT = 4;
     public Boolean acquiredBySeller;
     public Boolean playerHasContributed;
     public String name;
     public Client client;
-    public Integer deadline;
+    public Integer deadline = 0;
     public Integer paymentTime;
-    public Double payment;
+    public Double payment = 0.0;
     public Double delayFee;
-    public Double advance;
-    public Integer frontendWorkDays = 0;
-    public Integer backendWorkDays = 0;
-    public Integer databaseWorkDays = 0;
-    public Integer mobileWorkDays = 0;
-    public Integer wordpressWorkDays = 0;
-    public Integer prestashopWorkDays = 0;
+    public Double advance = 0.0;
+    public Integer[] workDays = new Integer[]{0, 0, 0, 0, 0, 0};
     public Complexity complexity;
 
     public enum Complexity{
@@ -27,44 +26,43 @@ public class Project {
     @Override
     public String toString() {
         return "Project{" +
-                "acquiredBySeller=" + acquiredBySeller +
-                ", playerHasContributed=" + playerHasContributed +
-                ", name='" + name + '\'' +
-                ", deadline=" + deadline +
-                ", paymentTime=" + paymentTime +
-                ", payment=" + payment +
-                ", delayFee=" + delayFee +
-                ", frontendWorkDays=" + frontendWorkDays +
-                ", backendWorkDays=" + backendWorkDays +
-                ", databaseWorkDays=" + databaseWorkDays +
-                ", mobileWorkDays=" + mobileWorkDays +
-                ", wordpressWorkDays=" + wordpressWorkDays +
-                ", prestashopWorkDays=" + prestashopWorkDays +
-                ", complexity=" + complexity +
-                '}';
+                "Nazwa: '" + name + '\'' +
+                ", Złożoność:" + complexity +
+                ", Deadline:" + deadline +
+                ", Zaliczka:" + advance +
+                ", Zapłata bez zaliczki:" + payment +
+                ", Kara za spóźnienie:" + delayFee +
+                ", Pozostała praca:" + Arrays.toString(workDays) +
+                ", Znaleziona przez sprzedawcę:" + acquiredBySeller +
+                ", Gracz programował lub testował:" + playerHasContributed +
+                '}' + "\n";
     }
 
-
-    public Project(Boolean acquiredBySeller, Client client,      Integer deadline, Integer paymentTime, Double payment, Double delayFee, Integer frontendWorkDays, Integer backendWorkDays, Integer databaseWorkDays, Integer mobileWorkDays, Integer wordpressWorkDays, Integer prestashopWorkDays, Double advance) {
+    public Project(Boolean acquiredBySeller, Client client) {
+        Complexity complex = randomComplex();
         this.name = generateName();
-        this.complexity = randomComplex();
+        this.complexity = complex;
         this.playerHasContributed = false;
         this.acquiredBySeller = acquiredBySeller;
         this.client = client;
-
-
-
-        this.deadline = deadline;
-        this.paymentTime = paymentTime;
-        this.payment = payment;
-        this.delayFee = delayFee;
-        this.frontendWorkDays = frontendWorkDays;
-        this.backendWorkDays = backendWorkDays;
-        this.databaseWorkDays = databaseWorkDays;
-        this.mobileWorkDays = mobileWorkDays;
-        this.wordpressWorkDays = wordpressWorkDays;
-        this.prestashopWorkDays = prestashopWorkDays;
-        this.advance = advance;
+        this.workDays = generateWorkDays(complex);
+        switch (complex){
+            case COMPLEX:{
+                this.payment += ThreadLocalRandom.current().nextDouble(12.0, 14.0 + 1.0);
+                this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
+                this.advance = this.payment * ADVANCE_RATIO;
+            }
+            case MEDIUM:{
+                this.payment += ThreadLocalRandom.current().nextDouble(12.0, 14.0 + 1.0);
+                this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
+            }
+            case LOW:{
+                this.payment += ThreadLocalRandom.current().nextDouble(12.0, 14.0 + 1.0);
+                this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
+            }
+        }
+        this.delayFee = payment * DELAY_FEE_RATIO;
+        this.paymentTime = WAITING_FOR_PAYMENT;
     }
 
     public Complexity randomComplex(){
@@ -83,5 +81,30 @@ public class Project {
         String[] second = {" system", " kalendarz", " sklep", " przybornik", " aplikacja", " sieć neutronowa", " samouczący się program", " zadanie domowe"};
         String[] third = {" bankowy", " społeczny", " rządowy", " sektoru publicznego", " chirurgiczny", " przemysłowy", " wojskowy"};
         return first[ThreadLocalRandom.current().nextInt(0, first.length)] + second[ThreadLocalRandom.current().nextInt(0, second.length)] + third[ThreadLocalRandom.current().nextInt(0, third.length)];
+    }
+
+    public Integer[] generateWorkDays(Complexity complex){
+        Integer[] generated = new Integer[]{0,0,0,0,0,0};
+        switch(complex){
+            case COMPLEX: {
+                generated[choseAspect(generated)] = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+            }
+            case MEDIUM: {
+                generated[choseAspect(generated)] = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+            }
+            case LOW: {
+                generated[choseAspect(generated)] = ThreadLocalRandom.current().nextInt(5, 8 + 1);
+            }
+        }
+        return generated;
+    }
+
+    public Integer choseAspect(Integer[] Chosen){
+        while(true){
+            int randomNum = ThreadLocalRandom.current().nextInt(0, 5 + 1);
+            if(Chosen[randomNum] == 0){
+                return randomNum;
+            }
+        }
     }
 }

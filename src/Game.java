@@ -1,7 +1,9 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
     Scanner readStuff = new Scanner(System.in);
@@ -11,8 +13,10 @@ public class Game {
     public Boolean endGame = false;
     public int projectSearchingProgress = 0;
     public Boolean projectSearchingPlayerContribution = false;
-    public ArrayList<Project> available; // = new ArrayList<>(new Project());
-    public ArrayList<Client> clients;
+    public ArrayList<Project> available = new ArrayList<>();
+    public ArrayList<Client> clients = new ArrayList<>();
+    public ArrayList<Employee>[] candidates = new ArrayList[3];
+
 
     public void makeRoom(){
         System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
@@ -41,6 +45,7 @@ public class Game {
     }
 
     public void playGame(){
+        prepareGame();
         while(!endGame){
             if(players.size() > 0){
                 for (Player player : players) {
@@ -48,7 +53,7 @@ public class Game {
                 }
             } else {
                 endGame = true;
-                System.out.println("Wszyscy gracze ponieśli klęskę");
+                System.out.println("Wszyscy gracze ponieśli klęskę\n\n");
                 break;
             }
             players.removeIf(x -> x.defeated);
@@ -108,6 +113,7 @@ public class Game {
                 }
                 case 0:{
                     lookTroughStuff(player);
+                    break;
                 }
                 default:{
                     System.out.println("Nie przewidziana odpowiedź");
@@ -139,10 +145,11 @@ public class Game {
     }
 
     public void lookTroughStuff(Player player){
-        int innerDecision;
+        int innerDecision = -1;
+
+        makeRoom();
         while(true){
-            makeRoom();
-            System.out.println(dayOfTheWeek() + today);
+            System.out.println(dayOfTheWeek() + " " + today);
             System.out.println("Tura gracza " + player.name + "\n");
             System.out.println("1 - sprawdź stan realizacji poszczególnych projektów");
             System.out.println("2 - przejrzyj dostępne projekty");
@@ -154,21 +161,67 @@ public class Game {
 
             switch(innerDecision){
                 case 1:{
-                    System.out.println(player.active.toString());
+                    try{
+                        System.out.println(player.active.toString() + "\n\n");
+                    } catch (NullPointerException e) {
+                        System.out.println("Brak aktywnych projektów\n\n");
+                    }
+                    break;
                 }
                 case 2:{
-                    System.out.println(available.toString());
+                    try{
+                        System.out.println(available.toString() + "\n\n");
+                    } catch (NullPointerException e) {
+                        System.out.println("Brak dostępnych projektów\n\n");
+                    }
+                    break;
                 }
                 case 3:{
-
+                    try{
+                        System.out.println("Programiści: \n" + candidates[0].toString());
+                    } catch (NullPointerException e) {
+                        System.out.println("Brak potencjalnych programistów\n\n");
+                    }
+                    try{
+                        System.out.println("\n Testerzy: \n " + candidates[1].toString());
+                    } catch (NullPointerException e) {
+                        System.out.println("Brak potencjalnych testerów\n\n");
+                    }
+                    try{
+                        System.out.println("\n Sprzedawcy: \n " + candidates[2].toString() + "\n\n");
+                    } catch (NullPointerException e) {
+                        System.out.println("Brak potencjalnych sprzedawców\n\n");
+                    }
+                    break;
                 }
                 case 4:{
-                    System.out.println("Stan konta wynosi: " + player.cash + "\nW tym miesiącu zarobiłeś: " + player.cashThisMonth);
+                    System.out.println("Stan konta wynosi: " + player.cash + "\nW tym miesiącu zarobiłeś: " + player.cashThisMonth + "\n\n");
+                    break;
                 }
                 case 0:{
                     return;
                 }
             }
+        }
+    }
+
+    public void prepareGame(){
+        clients.add(new Client(Client.Personality.DEMANDING));
+        clients.add(new Client(Client.Personality.CHILL));
+        clients.add(chooseClient());
+
+        available.add(new Project(false, chooseClient()));
+        available.add(new Project(false, chooseClient()));
+        available.add(new Project(false, chooseClient()));
+    }
+
+    public Client chooseClient(){
+        int randomNum = ThreadLocalRandom.current().nextInt(1, 10 + 1);
+        if(randomNum < 8){
+            return clients.get(new Random().nextInt(clients.size()));
+        } else {
+            clients.add(new Client());
+            return clients.get(clients.size()-1);
         }
     }
 

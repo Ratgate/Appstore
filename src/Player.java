@@ -5,9 +5,10 @@ public class Player {
     public String name;
     public Double cash = STARTING_CASH;
     public Double cashThisMonth = 0.0;
-    public ArrayList<Project> active;
-    public ArrayList<Employee> Office;
+    public ArrayList<Project> active = new ArrayList<>();
+    public ArrayList<Employee>[] Office = new ArrayList[3];
     public Integer majorCounter = 0;
+    public Boolean usingSeller = false;
     public Integer bureaucracy = 2;
     public Boolean defeated = false;
 
@@ -16,7 +17,7 @@ public class Player {
     }
 
     public Boolean isVictorious(){
-        return majorCounter >= 3 & cash > STARTING_CASH;
+        return majorCounter >= 3 & usingSeller & cash > STARTING_CASH;
     }
 
     public Boolean isDefeated(){
