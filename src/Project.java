@@ -32,7 +32,14 @@ public class Project {
                 ", Zaliczka:" + advance +
                 ", Zapłata bez zaliczki:" + payment +
                 ", Kara za spóźnienie:" + delayFee +
-                ", Pozostała praca:" + Arrays.toString(workDays) +
+                "Pozostała praca: " +
+                ", Mobilne:" + workDays[0] +
+                ", Front-end:" + workDays[1] +
+                ", Back-end:" + workDays[2] +
+                ", Bazy danych:" + workDays[3] +
+                ", Wordpress:" + workDays[4] +
+              //  ", Prestashop:" + Arrays.toString(workDays) +
+                ", Prestashop:" + workDays[5] +
                 ", Znaleziona przez sprzedawcę:" + acquiredBySeller +
                 ", Gracz programował lub testował:" + playerHasContributed +
                 '}' + "\n";
@@ -48,16 +55,16 @@ public class Project {
         this.workDays = generateWorkDays(complex);
         switch (complex){
             case COMPLEX:{
-                this.payment += ThreadLocalRandom.current().nextDouble(12.0, 14.0 + 1.0);
+                this.payment += ThreadLocalRandom.current().nextDouble(20.0, 25.0 + 1.0);
                 this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
                 this.advance = this.payment * ADVANCE_RATIO;
             }
             case MEDIUM:{
-                this.payment += ThreadLocalRandom.current().nextDouble(12.0, 14.0 + 1.0);
+                this.payment += ThreadLocalRandom.current().nextDouble(20.0, 25.0 + 1.0);
                 this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
             }
             case LOW:{
-                this.payment += ThreadLocalRandom.current().nextDouble(12.0, 14.0 + 1.0);
+                this.payment += ThreadLocalRandom.current().nextDouble(20.0, 25.0 + 1.0);
                 this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
             }
         }

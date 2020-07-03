@@ -15,7 +15,9 @@ public class Game {
     public Boolean projectSearchingPlayerContribution = false;
     public ArrayList<Project> available = new ArrayList<>();
     public ArrayList<Client> clients = new ArrayList<>();
-    public ArrayList<Employee>[] candidates = new ArrayList[3];
+    public ArrayList<Programmer> programmers = new ArrayList<>();
+    public ArrayList<Tester> testers = new ArrayList<>();
+    public ArrayList<Seller> sellers = new ArrayList<>();
 
 
     public void makeRoom(){
@@ -84,9 +86,12 @@ public class Game {
 
             switch (decision){
                 case 1:{
+                    acceptNewContract(player);
                     break;
                 }
                 case 2:{
+                    projectSearchingPlayerContribution = true;
+                    searchForProject(1);
                     break;
                 }
                 case 3:{
@@ -178,17 +183,17 @@ public class Game {
                 }
                 case 3:{
                     try{
-                        System.out.println("Programiści: \n" + candidates[0].toString());
+                        System.out.println("Programiści: \n" + programmers.toString());
                     } catch (NullPointerException e) {
                         System.out.println("Brak potencjalnych programistów\n\n");
                     }
                     try{
-                        System.out.println("\n Testerzy: \n " + candidates[1].toString());
+                        System.out.println("\n Testerzy: \n " + testers.toString());
                     } catch (NullPointerException e) {
                         System.out.println("Brak potencjalnych testerów\n\n");
                     }
                     try{
-                        System.out.println("\n Sprzedawcy: \n " + candidates[2].toString() + "\n\n");
+                        System.out.println("\n Sprzedawcy: \n " + sellers.toString() + "\n\n");
                     } catch (NullPointerException e) {
                         System.out.println("Brak potencjalnych sprzedawców\n\n");
                     }
@@ -213,6 +218,13 @@ public class Game {
         available.add(new Project(false, chooseClient()));
         available.add(new Project(false, chooseClient()));
         available.add(new Project(false, chooseClient()));
+
+        programmers.add(new Programmer());
+        programmers.add(new Programmer());
+        programmers.add(new Programmer());
+        testers.add(new Tester());
+        testers.add(new Tester());
+        sellers.add(new Seller());
     }
 
     public Client chooseClient(){
@@ -227,6 +239,37 @@ public class Game {
 
     public void officeDoItsWork(){
 
+    }
+
+    public void searchForProject(Integer times){
+        for(int i = 1; i <= times; i++){
+            projectSearchingProgress++;
+            if(projectSearchingProgress >= 5){
+                if(!projectSearchingPlayerContribution){
+                    available.add(new Project(true, chooseClient()));
+                } else {
+                    available.add(new Project(false, chooseClient()));
+                }
+                projectSearchingProgress = 0;
+                projectSearchingPlayerContribution = false;
+            }
+        }
+    }
+
+    public void acceptNewContract(Player player){
+        int decision;
+        for(int i = 0; i < available.size(); i++){
+            System.out.println(i + 1 + " " + available.get(i));
+        }
+        System.out.println("Proszę wpisać numer kontraktu, który podpisujesz lub 0, jeżeli nie chcesz podpisywać kontraktu (tracisz jednak dziziejszą turę) :");
+        decision = readStuff.nextInt();
+        if (decision == 0) {
+            return;
+        } else {
+            player.active.add(available.get(decision - 1));
+            player.cash += available.get(decision - 1).advance;
+            available.remove(decision - 1);
+        }
     }
 
 }
