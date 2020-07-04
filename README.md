@@ -3,15 +3,9 @@
 Brakujące/niedokończone elementy:
 
 Start
--know how to front-end back-end, database, wordpress, prestashop
--don't know mobile
--1 from 3 projects
 -no employees = no complex
--generete/base of projects
-
 
 Employee
-Jeśli pracownicy nie zostaną opłaceni to odchodzą
 Jeżeli posiadasz pracowników, każdego dnia roboczego wykonują swoje obowiązki, ale istnieje pewna niewielka szansa, że któryś z nich zachoruje i nie przyjdzie do pracy.
 
 Office
@@ -24,10 +18,10 @@ Właściwie klienci są niepotrzebni - można ich zastąpić polem personality w
 - skrwl - 30% szans na opóźnienie płatności o tydzień, 5% szans na opóźnienie płatności o miesiąc, 0% szans na uniknięcie kary, 100% szans na utratę kontraktu po oddaniu niedziałającego projektu, 1% szans nie nieuzyskanie płatności nigdy
 
 Skills
--Java
--Databases
--Front-end
 -Mobile
+-Frontend
+-Back
+-Front-end
 -Wordpress
 -Prestashop
 
@@ -44,12 +38,9 @@ Na początku każdej rozgrywki wylosuj zestaw umiejętności dla każdego z nich
 
 Turn
 -Każdego dnia możesz wykonać jedną z czynności:
-podpisać umowę na realizację jednego z dostępnych projektów
-przeznaczyć dzień na szukanie klientów (każde 5 dni to jeden nowy dostępny projekt)
 przeznaczyć dzień na programowanie 
-przeznaczyć dzień na testowanie (możesz testować własny kod, kod podwykonawców i kod pracowników)
+przeznaczyć dzień na testowanie (możesz testować własny kod, kod podwykonawców i kod pracowników) // Nie ma właściwie żadnej różnicy między testowaniem swojego a cudzego kodu
 oddać gotowy projekt klientowi
-zatrudnić nowego pracownika
 zwolnić pracownika
 
 -Nie tracąc tury można
@@ -64,5 +55,4 @@ Funkcjonalności dodatkowe
 
 Testowanie
 -każde rozpoczęte 3 dni pracy programistów tworzy 1 dzień pracy dla testerów
--Nie było to wyjaśnione, więc każdy zaległy dzień pracy testera daje 10% szansu na to, że oddawany projekt nie będzie działał - co wtedy?
-
+-Nie było to wyjaśnione, więc każdy zaległy dzień pracy testera daje 10% szansu na to, że oddawany projekt nie będzie działał - co wtedy
