@@ -31,9 +31,9 @@ public class Programmer extends Employee{
     public String toString() {
         return "Programista {" +
                 ", Imię:'" + name + '\'' +
-                "skills=" + Arrays.toString(skills) +
-                ", buyInPrice=" + buyInPrice +
-                ", maintenancePrice=" + maintenancePrice +
+                "Umiejętności: " + Arrays.toString(skills) +
+                ", Koszt zatrudnienia: " + buyInPrice +
+                ", Koszt utrzymania: " + maintenancePrice +
                 '}';
     }
 }

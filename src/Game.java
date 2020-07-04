@@ -86,7 +86,9 @@ public class Game {
 
             switch (decision){
                 case 1:{
-                    acceptNewContract(player);
+                    if(!acceptNewContract(player)){
+                        decision = -1;
+                    }
                     break;
                 }
                 case 2:{
@@ -104,6 +106,9 @@ public class Game {
                     break;
                 }
                 case 6:{
+                    if(!recruitEmployee(player)){
+                        decision = -1;
+                    }
                     break;
                 }
                 case 7:{
@@ -146,6 +151,7 @@ public class Game {
         }
         if(player.isDefeated()){
             player.defeated = true;
+            employeesAreQuiting(player);
         }
     }
 
@@ -256,20 +262,173 @@ public class Game {
         }
     }
 
-    public void acceptNewContract(Player player){
+    public Boolean acceptNewContract(Player player){
         int decision;
         for(int i = 0; i < available.size(); i++){
             System.out.println(i + 1 + " " + available.get(i));
         }
-        System.out.println("Proszę wpisać numer kontraktu, który podpisujesz lub 0, jeżeli nie chcesz podpisywać kontraktu (tracisz jednak dziziejszą turę) :");
+        System.out.println("Proszę wpisać numer kontraktu, który podpisujesz lub 0, jeżeli nie chcesz podpisywać kontraktu (Nie tracisz tury) :");
         decision = readStuff.nextInt();
-        if (decision == 0) {
-            return;
-        } else {
+        if (decision != 0) {
             player.active.add(available.get(decision - 1));
             player.cash += available.get(decision - 1).advance;
             available.remove(decision - 1);
+            return true;
+        }
+        return false;
+    }
+
+    public void employeesAreQuiting(Player player){
+        try{
+            programmers.addAll(player.programmers);
+        } catch (NullPointerException ignored){
+
+        }
+        try{
+            testers.addAll(player.testers);
+        } catch (NullPointerException ignored){
+
+        }
+        try{
+            sellers.addAll(player.sellers);
+        } catch (NullPointerException ignored){
+
         }
     }
 
+    public Boolean recruitEmployee(Player player){
+        int decision = -1;
+        int counter = 3;
+        System.out.println("0 - zrezygnuj z rekrutacji");
+        System.out.println("1 - nowy programista");
+        System.out.println("2 - nowy tester");
+        System.out.println("3 - nowy sprzedawca");
+                System.out.println("Dostępni Programiści: ");
+        for(int i = 0; i < programmers.size(); i++){
+            System.out.println(counter + 1 + " - " + programmers.get(i));
+            counter++;
+        }
+        System.out.println("Dostępni Testerzy: ");
+        for(int i = 0; i < testers.size(); i++){
+            System.out.println(counter + 1 + " " + testers.get(i));
+            counter++;
+        }
+        System.out.println("Dostępni Sprzedawcy: ");
+        for(int i = 0; i < sellers.size(); i++){
+            System.out.println(counter + 1 + " " + sellers.get(i));
+            counter++;
+        }
+        System.out.println("Proszę wpisać numer nowego pracownika [1-3] - koszt (3.0) (pokrycie kosztów nowego pracownika pozwala na decyzję o jego zatrudnieniu), numer istniejącego pracownika [4-" + counter + "], którego chcesz zatrudnić lub 0, jeżeli nie chcesz podpisywać kontraktu (Nie tracisz tury) :");
+
+        while(decision !=0){
+            decision = readStuff.nextInt();
+
+            if(decision <=3){
+                if(decision == 0){
+                    return false;
+                }
+                player.cash -= 3.0;
+                switch (decision){
+                    case 1:{
+                        Programmer chosen = new Programmer();
+                        System.out.println("Nowy pracownik: " + chosen.toString());
+                        if(player.cash >= chosen.buyInPrice){
+                            System.out.println("Czy chcesz zatrudnić tego pracownika? \n 1 - tak \n 2 - nie");
+                            if(readStuff.nextInt() > 1){
+                                System.out.println("Pracownik zatrudniony");
+                                player.cash -= chosen.buyInPrice;
+                                player.programmers.add(chosen);
+                            } else {
+                                System.out.println("pracownik trafia na listę potencjalnych pracowników");
+                                programmers.add(chosen);
+                            }
+                        } else {
+                            System.out.println("Niestety nie masz dość pieniędzy, by go zatrudnić");
+                            programmers.add(chosen);
+                        }
+                        break;
+                    }
+                    case 2:{
+                        Tester chosen = new Tester();
+                        System.out.println("Nowy pracownik: " + chosen.toString());
+                        if(player.cash >= chosen.buyInPrice){
+                            System.out.println("Czy chcesz zatrudnić tego pracownika? \n 1 - tak \n 2 - nie");
+                            if(readStuff.nextInt() > 0){
+                                System.out.println("Pracownik zatrudniony");
+                                player.cash -= chosen.buyInPrice;
+                                player.testers.add(chosen);
+                            } else {
+                                System.out.println("pracownik trafia na listę potencjalnych pracowników");
+                                testers.add(chosen);
+                            }
+                        } else {
+                            System.out.println("Niestety nie masz dość pieniędzy, by go zatrudnić");
+                            testers.add(chosen);
+                        }
+                        break;
+                    }
+                    case 3:{
+                        Seller chosen = new Seller();
+                        System.out.println("Nowy pracownik: " + chosen.toString());
+                        if(player.cash >= chosen.buyInPrice){
+                            System.out.println("Czy chcesz zatrudnić tego pracownika? \n 1 - tak \n 2 - nie");
+                            if(readStuff.nextInt() > 0){
+                                System.out.println("Pracownik zatrudniony");
+                                player.cash -= chosen.buyInPrice;
+                                player.sellers.add(chosen);
+                            } else {
+                                System.out.println("pracownik trafia na listę potencjalnych pracowników");
+                                sellers.add(chosen);
+                            }
+                        } else {
+                            System.out.println("Niestety nie masz dość pieniędzy, by go zatrudnić");
+                            sellers.add(chosen);
+                        }
+                        break;
+                    }
+                }
+                return true;
+            } else {
+                if(decision - 4 <= programmers.size()){
+                    Programmer chosen = programmers.get(decision - 4);
+                    if(player.cash >= chosen.buyInPrice){
+                        System.out.println("Pracownik zatrudniony");
+                        player.cash -= chosen.buyInPrice;
+                        player.programmers.add(chosen);
+                        programmers.remove(chosen);
+                        return true;
+                    } else {
+                        System.out.println("Niestety, nie masz dość pieniędzy by zatrudnić" + chosen.toString());
+                        decision = -1;
+                    }
+                } else if(decision - 4 <= programmers.size() + testers.size()){
+                    Tester chosen = testers.
+                            get(decision - 4 - programmers.size());
+                    if(player.cash >= chosen.buyInPrice){
+                        System.out.println("Pracownik zatrudniony");
+                        player.cash -= chosen.buyInPrice;
+                        player.testers.add(chosen);
+                        testers.remove(chosen);
+                        return true;
+                    } else {
+                        System.out.println("Niestety, nie masz dość pieniędzy by zatrudnić" + chosen.toString());
+                        decision = -1;
+                    }
+                } else {
+                    Seller chosen = sellers.get(decision - 4 - programmers.size() - testers.size());
+                    if(player.cash >= chosen.buyInPrice){
+                        System.out.println("Pracownik zatrudniony");
+                        player.cash -= chosen.buyInPrice;
+                        player.sellers.add(chosen);
+                        sellers.remove(chosen);
+                        return true;
+                    } else {
+                        System.out.println("Niestety, nie masz dość pieniędzy by zatrudnić" + chosen.toString());
+                        decision = -1;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }
