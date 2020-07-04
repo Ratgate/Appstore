@@ -25,11 +25,7 @@ Skills
 -Wordpress
 -Prestashop
 
-Project
-easy 1
-mdeium 2
-complex 3, zaliczki
-
+//Jak działają podwykonawcy? Gdzie ich umieścić?
 Podwykonawcy
 -najlepszy uczeń - najdroższy, ale robi na czas i bez błędów
 -średni uczeń - robi na czas, ale jest 10% ryzyka, że trzeba będzie po nim poprawiać 
@@ -39,13 +35,9 @@ Na początku każdej rozgrywki wylosuj zestaw umiejętności dla każdego z nich
 Turn
 -Każdego dnia możesz wykonać jedną z czynności:
 przeznaczyć dzień na programowanie 
-przeznaczyć dzień na testowanie (możesz testować własny kod, kod podwykonawców i kod pracowników) // Nie ma właściwie żadnej różnicy między testowaniem swojego a cudzego kodu
+przeznaczyć dzień na testowanie (możesz testować własny kod, kod podwykonawców i kod pracowników) // Nie ma właściwie żadnej różnicy między testowaniem swojego a cudzego kodu?
 oddać gotowy projekt klientowi
 zwolnić pracownika
-
--Nie tracąc tury można
-przejrzeć dostępnych pracowników 
-
 
 Warunki zwycięstwa
 pełnej zapłaty za 3 duże projekty, w ramach których właściciel firmy nie wykonał żadnych prac programistycznych ani testerskich, z których co najmniej 1 został pozyskany przez zatrudnionego sprzedawcę
@@ -56,3 +48,5 @@ Funkcjonalności dodatkowe
 Testowanie
 -każde rozpoczęte 3 dni pracy programistów tworzy 1 dzień pracy dla testerów
 -Nie było to wyjaśnione, więc każdy zaległy dzień pracy testera daje 10% szansu na to, że oddawany projekt nie będzie działał - co wtedy
+
+Dodanie zabezpieczeń idiotproof - wszędzie gdzie oczekuje się liczb trzeba sprawdzać, czy dostaje sięliczby
