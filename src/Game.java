@@ -112,6 +112,9 @@ public class Game {
                     break;
                 }
                 case 7:{
+                    if(!fireEmployee(player)){
+                        decision = -1;
+                    }
                     break;
                 }
                 case 8:{
@@ -142,6 +145,7 @@ public class Game {
             System.out.println(player.name + " Wygrał grę");
             endGame = true;
         }
+
         if(today.getMonth() != today.plusDays(1).getMonth()){
             if(player.bureaucracy > 0){
                 player.defeated = true;
@@ -149,6 +153,7 @@ public class Game {
                 player.bureaucracy = 2;
             }
         }
+
         if(player.isDefeated()){
             player.defeated = true;
             employeesAreQuiting(player);
@@ -245,6 +250,51 @@ public class Game {
 
     public void officeDoItsWork(){
 
+    }
+
+    public Boolean fireEmployee(Player player){
+        Integer counter = 1;
+        Integer decision = -1;
+        System.out.println("Twoi programiści");
+        for (Programmer programmer : player.programmers) {
+            System.out.println(counter + " - " + programmer);
+            counter++;
+        }
+        System.out.println("Twoi yrsterzy");
+        for (Tester tester: player.testers) {
+            System.out.println(counter + " - " + tester);
+            counter++;
+        }
+        System.out.println("Twoi sprzedawcy");
+        for (Seller seller : player.sellers) {
+            System.out.println(counter + " - " + seller);
+            counter++;
+        }
+        System.out.println("Wybierz 0 by zmienić zdanie lub numer pracownika by go zwolnić");
+
+        while(decision !=0){
+            decision = readStuff.nextInt();
+                if(decision - 1 <= programmers.size()){
+                    Programmer chosen = player.programmers.get(decision - 1);
+                    this.programmers.add(chosen);
+                    player.programmers.remove(chosen);
+                    System.out.println("Zwolniony pracownik jest dostępny do ponownej rekrutacji");
+                        return true;
+                } else if(decision - 1 <= programmers.size() + testers.size()){
+                    Tester chosen = player.testers.get(decision - 1 - programmers.size());
+                    this.testers.add(chosen);
+                    player.testers.remove(chosen);
+                    System.out.println("Pracownik został zwolniony");
+                    return true;
+                } else {
+                    Seller chosen = player.sellers.get(decision - 1 - programmers.size() - testers.size());
+                    this.sellers.add(chosen);
+                    player.sellers.remove(chosen);
+                    System.out.println("Pracownik został zwolniony");
+                    return true;
+                }
+        }
+        return false;
     }
 
     public void searchForProject(Integer times){

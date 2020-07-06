@@ -1,6 +1,7 @@
 import java.util.concurrent.ThreadLocalRandom;
 
 abstract public class Employee {
+    public static final Double CHANCE_TO_NOT_COME_TO_WORK = 0.05;
     public String name;
     public Double buyInPrice;
     public Double maintenancePrice;
