@@ -30,6 +30,7 @@ public class Project {
                 "Nazwa: '" + name + '\'' +
                 ", Złożoność:" + complexity +
                 ", Deadline:" + deadline +
+                ", Licznik testowy:" + testingPoints +
                 ", Zaliczka:" + advance +
                 ", Zapłata bez zaliczki:" + payment +
                 ", Kara za spóźnienie:" + delayFee +

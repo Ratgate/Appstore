@@ -4,6 +4,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Player extends Programmer{
     public static final Double STARTING_CASH = 20.0;
+    public static final Integer TEST_POWER = 3;
     public String name;
     public Double cash = STARTING_CASH;
     public Double cashThisMonth = 0.0;
@@ -15,7 +16,6 @@ public class Player extends Programmer{
     public Boolean usingSeller = false;
     public Integer bureaucracy = 2;
     public Boolean defeated = false;
-    public Integer[] skills = {0,1,1,1,1,1};
 
     public Player(String name) {
         this.name = name;
@@ -59,7 +59,7 @@ public class Player extends Programmer{
             }
         }
         System.out.println("Pracuje dzisiaj " + testersInWork + " testerów");
-        return testersInWork * Tester.TEST_POWER;
+        return testersInWork * TEST_POWER;
     }
 
     public Integer numberOfSellers(){

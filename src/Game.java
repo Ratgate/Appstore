@@ -5,6 +5,7 @@ import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Game {
+    final static Integer[] PLAYER_SKILLS = {0,1,1,1,1,1};
     Scanner readStuff = new Scanner(System.in);
     public ArrayList<Player> players = new ArrayList<>();
     public LocalDate today = LocalDate.of(2020, 1, 1);
@@ -64,6 +65,8 @@ public class Game {
 
 
     public void playTurn(Player player){
+        Boolean playerProgram = false;
+        Boolean playerTest = false;
         int decision = -1;
         while (decision <= 0){
             makeRoom();
@@ -96,9 +99,11 @@ public class Game {
                     break;
                 }
                 case 3:{
+                    playerProgram = true;
                     break;
                 }
                 case 4:{
+                    playerTest = true;
                     break;
                 }
                 case 5:{
@@ -132,9 +137,14 @@ public class Game {
                 }
             }
         }
+
+            officeDoItsWork(player, playerProgram, playerTest);
+
+
         if(!isWeekend()){
-            officeDoItsWork();
+            officeReceivesPayment(player);
         }
+
 
         if(today.getMonth() != today.plusDays(1).getMonth()){
             player.salesTax();
@@ -247,8 +257,10 @@ public class Game {
         }
     }
 
-    public void officeDoItsWork(){
-
+    public void officeDoItsWork(Player player, Boolean helpedPrograming, Boolean helpedTesting){
+        doPrograming(player, helpedPrograming);
+        doTesting(player, helpedTesting);
+        doSelling(player);
     }
 
     public Boolean fireEmployee(Player player){
@@ -322,9 +334,10 @@ public class Game {
         System.out.println("Proszę wpisać numer kontraktu, który podpisujesz lub 0, jeżeli nie chcesz podpisywać kontraktu (Nie tracisz tury) :");
         decision = readStuff.nextInt();
         if (decision != 0) {
-            player.active.add(available.get(decision - 1));
-            player.cash += available.get(decision - 1).advance;
-            available.remove(decision - 1);
+            Project chosen = available.get(decision - 1);
+            player.active.add(chosen);
+            player.cash += chosen.advance;
+            available.remove(chosen);
             return true;
         }
         return false;
@@ -484,11 +497,75 @@ public class Game {
         return false;
     }
 
-    public void doPrograming(Programmer programmer, Project project){
+    public void doPrograming(Player player, Boolean helped){
+        if(!isWeekend()){
+        }
+
         //choose project
+        //if complex then no only
         //crash skills with workdays
         //add testing points
         //check if completed
+
+    }
+
+    public void doTesting(Player player, Boolean helped){
+        if((isWeekend() | player.testers.size()==0) & !helped){
+            return;
+        }
+
+        Integer testingPower = 0;
+        int decision;
+
+        if(isWeekend()){
+            testingPower += player.powerOfTesters();
+        }
+
+        for(int i = 0; i < player.active.size(); i++){
+            System.out.println(i + 1 + " " + available.get(i));
+        }
+        if(!isWeekend()){
+            System.out.println("Proszę wpisać numer projektu, który dzisiaj wraz testujecie z ekipą:");
+        } else if(helped) {
+            System.out.println("Jest weekend, pracujesz sam. Który projekt testujesz?:");
+        }
+        decision = readStuff.nextInt();
+        Project chosen = player.active.get(decision - 1);
+
+        if(helped){
+            chosen.playerHasContributed = true;
+            testingPower += player.TEST_POWER;
+        }
+
+        if(chosen.testingPoints >= testingPower){
+            chosen.testingPoints -= testingPower;
+        } else{
+            chosen.testingPoints = 0;
+        }
+    }
+
+    public void officeReceivesPayment(Player player){
+        Double dailyPay = 0.0;
+
+        for (Programmer programmer : player.programmers) {
+            dailyPay += programmer.maintenancePrice;
+        }
+
+        for (Tester tester : player.testers) {
+            dailyPay += tester.maintenancePrice;
+        }
+
+        for (Seller seller : player.sellers) {
+            dailyPay += seller.maintenancePrice;
+        }
+
+        player.cash -= dailyPay;
+    }
+
+    public void doSelling(Player player){
+        if(!isWeekend()){
+            searchForProject(player.numberOfSellers());
+        }
     }
 }
 
