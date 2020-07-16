@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Player{
+public class Player extends Programmer{
     public static final Double STARTING_CASH = 20.0;
     public String name;
     public Double cash = STARTING_CASH;
@@ -16,7 +15,7 @@ public class Player{
     public Boolean usingSeller = false;
     public Integer bureaucracy = 2;
     public Boolean defeated = false;
-    Integer[] skill = {0,1,1,1,1,1};
+    public Integer[] skills = {0,1,1,1,1,1};
 
     public Player(String name) {
         this.name = name;

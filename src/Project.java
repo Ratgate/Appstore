@@ -16,6 +16,7 @@ public class Project {
     public Double advance = 0.0;
     public Integer[] workDays = new Integer[]{0, 0, 0, 0, 0, 0};
     public Complexity complexity;
+    public Integer testingPoints = 0;
 
     public enum Complexity{
         LOW,

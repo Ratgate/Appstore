@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -260,7 +259,7 @@ public class Game {
             System.out.println(counter + " - " + programmer);
             counter++;
         }
-        System.out.println("Twoi yrsterzy");
+        System.out.println("Twoi testerzy");
         for (Tester tester: player.testers) {
             System.out.println(counter + " - " + tester);
             counter++;
@@ -274,6 +273,9 @@ public class Game {
 
         while(decision !=0){
             decision = readStuff.nextInt();
+            if(decision == 0){
+                break;
+            }
                 if(decision - 1 <= programmers.size()){
                     Programmer chosen = player.programmers.get(decision - 1);
                     this.programmers.add(chosen);
@@ -439,7 +441,7 @@ public class Game {
                 }
                 return true;
             } else {
-                if(decision - 4 <= programmers.size()){
+                if(decision - 3 <= programmers.size()){
                     Programmer chosen = programmers.get(decision - 4);
                     if(player.cash >= chosen.buyInPrice){
                         System.out.println("Pracownik zatrudniony");
@@ -451,7 +453,7 @@ public class Game {
                         System.out.println("Niestety, nie masz dość pieniędzy by zatrudnić" + chosen.toString());
                         decision = -1;
                     }
-                } else if(decision - 4 <= programmers.size() + testers.size()){
+                } else if(decision - 3 <= programmers.size() + testers.size()){
                     Tester chosen = testers.
                             get(decision - 4 - programmers.size());
                     if(player.cash >= chosen.buyInPrice){
@@ -481,4 +483,12 @@ public class Game {
         }
         return false;
     }
+
+    public void doPrograming(Programmer programmer, Project project){
+        //choose project
+        //crash skills with workdays
+        //add testing points
+        //check if completed
+    }
 }
+
