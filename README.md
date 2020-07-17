@@ -35,7 +35,14 @@ Gra trwa tak długo, aż wszyscy gracze odpadną lub pierwsza osoba
 odbierze całą zapłatę za 3 skomplikowane projekty w ramach których nie wykonał żadnych prac programistycznych ani testerskich, z których co najmniej 1 został pozyskany przez zatrudnionego sprzedawcę
 
 
+
+
+
 Przy okazji czy mógłby Pan jeszcze raz ocenić u mnie zadanie 3,4 i 5? Tam gałąź homework dołączyłem po tym, jak Pan już je ocenił
+
+
+
+
 
 
 Brakujące/niedokończone elementy:
