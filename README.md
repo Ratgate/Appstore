@@ -8,13 +8,21 @@ Każdy dzień składa się z tury każdego gracza.
 W każdej turze gracz może:
 
 1 - Podpisać umowę na realizację dostępnego projektu z listy dostępnych projektów
+
 2 - Poszukać nowych projektów, szukanie każdego gracza lub sprzedawcy przybliża pojawienie się nowego projektu o 1/5
+
 3 - Programować wraz ze swoim zespołem programistów, gdzie każdy postęp w każdej dziedzinie generuje punkt testów a gracz bez zespołu nie może programować skomplikowanych
+
 4 - Testować wraz ze swoją ekipą testerską, gdzie każdy tester obniża punkt testów projektu zależnie od siły testowania (obecnie 3)
+
 5 - Oddać projekt klientowi, co przeniesie projekt do listy finalizowanych projektów
+
 6 - Rekrutować nowego pracownika albo z listy dostępnych pracowników albo wydać pieniądze na dodanie nowego pracownika do listy z możliwością jego natychmiastowej rekrutacji
+
 7 - Zwolnić pracownika
+
 8 - Użerać się z biurokracją, gdzie nie poświęcenie temu 2 dni w miesiącu doprowadzi gracza do przegranej
+
 9 - nic nie robić cały dzień
 
 W trakcie swojej tury gracz może nie tracąc tury
