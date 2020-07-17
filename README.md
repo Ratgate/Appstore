@@ -36,15 +36,6 @@ odbierze całą zapłatę za 3 skomplikowane projekty w ramach których nie wyko
 
 
 
-
-
-Przy okazji czy mógłby Pan jeszcze raz ocenić u mnie zadanie 3,4 i 5? Tam gałąź homework dołączyłem po tym, jak Pan już je ocenił
-
-
-
-
-
-
 Brakujące/niedokończone elementy:
 
 
