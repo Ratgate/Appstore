@@ -9,6 +9,7 @@ public class Player extends Programmer{
     public Double cash = STARTING_CASH;
     public Double cashThisMonth = 0.0;
     public ArrayList<Project> active = new ArrayList<>();
+    public ArrayList<Project> finalizing = new ArrayList<>();
     public ArrayList<Programmer> programmers = new ArrayList<>();
     public ArrayList<Tester> testers = new ArrayList<>();
     public ArrayList<Seller> sellers = new ArrayList<>();

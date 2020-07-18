@@ -1,5 +1,6 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -138,7 +139,9 @@ public class Game {
             }
         }
 
-            officeDoItsWork(player, playerProgram, playerTest);
+        officeDoItsWork(player, playerProgram, playerTest);
+
+        advanceFinalizingProjects(player);
 
 
         if(!isWeekend()){
@@ -498,37 +501,82 @@ public class Game {
     }
 
     public void doPrograming(Player player, Boolean helped){
-        if(!isWeekend()){
+        Integer workDaysLeft = 0;
+        if(((isWeekend() | player.programmers.size()==0) & !helped) | player.active.size() == 0){
+            System.out.println("Albo gracz nie ma zleceń nad którymi może pracować, albo gracz nie programował i albo jest weekend albo nie ma programistów");
+            return;
         }
 
-        //choose project
-        //if complex then no only
-        //crash skills with workdays
-        //add testing points
-        //check if completed
+        Integer[] programmingPower = {0,0,0,0,0,0};
+        int decision;
 
+        if(!isWeekend()){
+            sumProgrammingPower(programmingPower, player.sumOfTeamSkill());
+        }
+
+        for(int i = 0; i < player.active.size(); i++){
+            System.out.println(i + 1 + " - " + player.active.get(i));
+        }
+
+        if(player.programmers.size() == 0){
+            System.out.println("Nie zatrudniłeś programistów więc programujesz sam. Skomplikowane projekty Cię przerastają. Nad którym projektem pracujesz?");
+        } else if(isWeekend()) {
+            System.out.println("Jest weekend, programujesz sam. Skomplikowane projekty są za skomplikowane dla Ciebie samego. Nad którym projektem pracujesz?:");
+        } else {
+            System.out.println("Proszę wpisać numer projektu, który dzisiaj wraz z ekipą programujecie:");
+        }
+
+        decision = readStuff.nextInt();
+        Project chosen = player.active.get(decision - 1);
+
+        if(helped & (chosen.complexity != Project.Complexity.COMPLEX | (!isWeekend() & player.programmers.size() > 0))){
+            chosen.playerHasContributed = true;
+            sumProgrammingPower(programmingPower, PLAYER_SKILLS);
+        }
+
+        for(int i = 0; i < chosen.workDays.length; i++){
+            if(chosen.workDays[i] >= programmingPower[i]){
+                chosen.testingPoints += programmingPower[i];
+                chosen.workDays[i] -= programmingPower[i];
+            } else {
+                chosen.testingPoints += chosen.workDays[i];
+                chosen.workDays[i] = 0;
+            }
+            workDaysLeft += chosen.workDays[i];
+        }
+
+        if(workDaysLeft == 0){
+            System.out.println("Wszelkie programowanie w projekcie skończone. Projekt gotowy do oddania teraz lub po ewentualnych testach");
+            chosen.readyToGiveAway = true;
+        }
     }
 
     public void doTesting(Player player, Boolean helped){
-        if((isWeekend() | player.testers.size()==0) & !helped){
+        if(((isWeekend() | player.testers.size()==0) & !helped) | player.active.size() == 0){
+            System.out.println("Albo gracz nie ma zleceń nad którymi może pracować, albo gracz nie testował i albo jest weekend albo nie ma testerów");
             return;
         }
 
         Integer testingPower = 0;
         int decision;
 
-        if(isWeekend()){
+        if(!isWeekend()){
             testingPower += player.powerOfTesters();
         }
 
+
+
         for(int i = 0; i < player.active.size(); i++){
-            System.out.println(i + 1 + " " + available.get(i));
+            System.out.println(i + 1 + " - " + player.active.get(i));
         }
-        if(!isWeekend()){
+        if(player.testers.size() == 0){
+            System.out.println("Nie masz biura, testujesz sam. Który projekt testujesz");
+        } else if(isWeekend()) {
+            System.out.println("Jest weekend, testujesz sam sam. Który projekt testujesz?:");
+        } else {
             System.out.println("Proszę wpisać numer projektu, który dzisiaj wraz testujecie z ekipą:");
-        } else if(helped) {
-            System.out.println("Jest weekend, pracujesz sam. Który projekt testujesz?:");
         }
+
         decision = readStuff.nextInt();
         Project chosen = player.active.get(decision - 1);
 
@@ -542,6 +590,13 @@ public class Game {
         } else{
             chosen.testingPoints = 0;
         }
+    }
+
+    public Integer[] sumProgrammingPower(Integer[] initial, Integer[] additive){
+        for(int i = 0; i < initial.length; i++){
+            initial[i] += additive[i];
+        }
+        return initial;
     }
 
     public void officeReceivesPayment(Player player){
@@ -567,5 +622,9 @@ public class Game {
             searchForProject(player.numberOfSellers());
         }
     }
+
+    public void advanceFinalizingProjects(Player player){
+
+    };
 }
 

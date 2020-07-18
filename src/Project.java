@@ -17,6 +17,7 @@ public class Project {
     public Integer[] workDays = new Integer[]{0, 0, 0, 0, 0, 0};
     public Complexity complexity;
     public Integer testingPoints = 0;
+    public  Boolean readyToGiveAway = false;
 
     public enum Complexity{
         LOW,
@@ -28,6 +29,7 @@ public class Project {
     public String toString() {
         return "Project{" +
                 "Nazwa: '" + name + '\'' +
+                ", Gotowy do oddania:" + readyToGiveAway +
                 ", Złożoność:" + complexity +
                 ", Deadline:" + deadline +
                 ", Licznik testowy:" + testingPoints +
