@@ -44,10 +44,6 @@ Oddawanie skończonych projektów i oczekiwanie na zapłate za nie lub na proble
 
 Przez cały okres od oddania projektu aż do otrzymania zapłaty każdy punkt testowy będzie generował chyba 2% szansy na to, że coś się popsuje. Zależnie od klienta będzie to miało różne efekty
 
-Gracz nie może programować w skomplikowanych projektach jeżeli nie posiada żadnych programistów
-
-Zderzenie siły programistów ze dniami roboczymi projektu nad którym pracują
-
 Każdy projekt ma klienta ale brakuje obsługi klientów przy oddawaniu projektów
 
 Klient
@@ -75,7 +71,6 @@ Na początku każdej rozgrywki wylosuj zestaw umiejętności dla każdego z nich
 
 
 Brakujące akcje w turze każdego gracza
--przeznaczyć dzień na programowanie -to wymaga tylko implementacji
 -oddać gotowy projekt klientowi - to wymaga utworzenie w graczu nowej listy projektów finalizowanych, gdzie czekają od oddania do zapłaty i patrzy się, czy punkty testów coś zepsują
 
 
@@ -86,10 +81,11 @@ Funkcjonalności dodatkowe
 -Dodaj obsługę projektów, które mają kilka etapów (10%) - częściej musisz poświęcać czas na oddanie prac, ale częściej dostajesz pieniądze.
 
 Testowanie
--Każdy postęp w projekcie każdego programisty dodaje jeden punkt testowania
 -Nie było to wyjaśnione, więc każdy punkt testowania daje 2% szansu dziennie na to, że oddawany projekt nie będzie działał
 -konsekwencje niedziałającego projektu
 
 Dodanie zabezpieczeń idiotproof
 - wszędzie gdzie oczekuje się liczb trzeba sprawdzać, czy dostaje się liczby
 - Można poblokować niektóre aktywności gdy są one niepotrzebne np. biurokrację kiedy nie ma na to potrzeby w miesiącu
+
+Zobaczyćczy następujące tury zmniejszają deadline.
