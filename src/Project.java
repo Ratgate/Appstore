@@ -2,6 +2,7 @@ import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Project {
+    final static Double PROJECTS_CHANCE_TO_FAIL_PER_TESTING_POINT = 2.0;
     final static Double ADVANCE_RATIO = 0.4;
     final static Double DELAY_FEE_RATIO = 0.8;
     final static Integer WAITING_FOR_PAYMENT = 4;
@@ -17,7 +18,8 @@ public class Project {
     public Integer[] workDays = new Integer[]{0, 0, 0, 0, 0, 0};
     public Complexity complexity;
     public Integer testingPoints = 0;
-    public  Boolean readyToGiveAway = false;
+    public Boolean readyToGiveAway = false;
+    public Boolean delayedPayment = false;
 
     public enum Complexity{
         LOW,

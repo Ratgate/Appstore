@@ -1,6 +1,5 @@
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
@@ -108,6 +107,9 @@ public class Game {
                     break;
                 }
                 case 5:{
+                    if(!finalizeProject(player)){
+                        decision = -1;
+                    }
                     break;
                 }
                 case 6:{
@@ -141,6 +143,7 @@ public class Game {
 
         officeDoItsWork(player, playerProgram, playerTest);
 
+        advanceActiveProjects(player);
         advanceFinalizingProjects(player);
 
 
@@ -624,7 +627,100 @@ public class Game {
     }
 
     public void advanceFinalizingProjects(Player player){
+        for (Project project : player.finalizing) {
+            if(project.paymentTime > 0){
+                project.paymentTime--;
+            } else {
+                if(ThreadLocalRandom.current().nextDouble(0.0, 100.0 + 1.0) < project.testingPoints * project.PROJECTS_CHANCE_TO_FAIL_PER_TESTING_POINT){
+                    //klient ma wkurw
+                } else {
+                    //Wszystko w porzo
+                }
 
-    };
+
+
+
+                if(!doClientDelaysPayment(project)){
+                    // Gracz dostaje zapłatę, warunki zwycięstwa jeżeli działają, projekt przestaje nas interesować
+                } else {
+                    // Opóźnienie
+                }
+            }
+        }
+    }
+
+    public void advanceActiveProjects(Player player){
+        for (Project project : player.active) {
+                project.deadline--;
+        }
+    }
+
+    public Boolean finalizeProject(Player player){
+        int decision;
+        int readyCounter = 0;
+        for(int i = 0; i < player.active.size(); i++){
+            if(player.active.get(i).readyToGiveAway){
+                System.out.println(i + 1 + " " + player.active.get(i));
+                readyCounter++;
+            }
+        }
+        if(readyCounter == 0){
+            System.out.println("Nie ma żadnego projektu gotowego do oddania");
+            return false;
+        } else {
+            System.out.println("Proszę wpisać numer kontraktu, który chcesz oddać lub 0, jeżeli nie tracąc cury chcesz wrócić do menu tury :");
+            decision = readStuff.nextInt();
+            if (decision != 0) {
+                Project chosen = player.active.get(decision - 1);
+                deliverProjectToClient(chosen);
+                player.finalizing.add(chosen);
+                player.active.remove(chosen);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean doClientDelaysPayment(Project project) {
+        if (!project.delayedPayment) {
+            switch (project.client.personality) {
+                case DEMANDING: {
+                    return false;
+                }
+                case CHILL: {
+                    if (ThreadLocalRandom.current().nextInt(1, 10 + 1) <= 3) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+                case SONOFAB: {
+                    if (ThreadLocalRandom.current().nextInt(1, 100 + 1) <= 35) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+        } else {
+            return false;
+        }
+        return false;
+    }
+
+    public void deliverProjectToClient(Project project){
+        if(project.deadline < 0){
+            if(project.client.personality == Client.Personality.CHILL & ThreadLocalRandom.current().nextInt(1, 5 + 1) == 1 & project.deadline <= Client.CHILLED_PATIENCE){
+                    System.out.println("Klient nie przejmuje się spóźnieniem. Otrzymujesz pełną zapłatę");
+            } else {
+                System.out.println("W ramach kary za spóźnienie " + (-1) * project.deadline + " dni, reszta zapłaty " + project.payment + " została zmniejszona o " + delayFee(project));
+                   project.payment -= delayFee(project);
+            }
+        }
+    }
+    
+    public Double delayFee(Project project){
+        return (project.payment - project.advance) * (project.deadline / (project.deadline - 1));
+    }
 }
 

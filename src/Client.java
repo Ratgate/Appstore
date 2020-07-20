@@ -1,6 +1,7 @@
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Client {
+    static final Integer CHILLED_PATIENCE = 7;
     public Personality personality;
 
     public enum Personality{
