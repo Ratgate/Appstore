@@ -1,10 +1,10 @@
-import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Project {
+    final static Integer LIGHTLY_PAYMENT_DELAY = 7;
+    final static Integer SEVERE_PAYMENT_DELAY = 30;
     final static Double PROJECTS_CHANCE_TO_FAIL_PER_TESTING_POINT = 2.0;
     final static Double ADVANCE_RATIO = 0.4;
-    final static Double DELAY_FEE_RATIO = 0.8;
     final static Integer WAITING_FOR_PAYMENT = 4;
     public Boolean acquiredBySeller;
     public Boolean playerHasContributed;
@@ -13,13 +13,14 @@ public class Project {
     public Integer deadline = 0;
     public Integer paymentTime;
     public Double payment = 0.0;
-    public Double delayFee;
     public Double advance = 0.0;
     public Integer[] workDays = new Integer[]{0, 0, 0, 0, 0, 0};
     public Complexity complexity;
     public Integer testingPoints = 0;
     public Boolean readyToGiveAway = false;
     public Boolean delayedPayment = false;
+    public Boolean receivedFee = false;
+    public Boolean finalized = false;
 
     public enum Complexity{
         LOW,
@@ -37,7 +38,6 @@ public class Project {
                 ", Licznik testowy:" + testingPoints +
                 ", Zaliczka:" + advance +
                 ", Zapłata bez zaliczki:" + payment +
-                ", Kara za spóźnienie:" + delayFee +
                 "Pozostała praca: " +
                 ", Mobilne:" + workDays[0] +
                 ", Front-end:" + workDays[1] +
@@ -74,7 +74,6 @@ public class Project {
                 this.deadline += ThreadLocalRandom.current().nextInt(12, 15 + 1);
             }
         }
-        this.delayFee = payment * DELAY_FEE_RATIO;
         this.paymentTime = WAITING_FOR_PAYMENT;
     }
 

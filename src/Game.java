@@ -63,7 +63,6 @@ public class Game {
             }
         }
 
-
     public void playTurn(Player player){
         Boolean playerProgram = false;
         Boolean playerTest = false;
@@ -145,6 +144,7 @@ public class Game {
 
         advanceActiveProjects(player);
         advanceFinalizingProjects(player);
+        player.finalizing.removeIf(x -> x.finalized);
 
 
         if(!isWeekend()){
@@ -294,20 +294,20 @@ public class Game {
             if(decision == 0){
                 break;
             }
-                if(decision - 1 <= programmers.size()){
+                if(decision - 1 < player.programmers.size()){
                     Programmer chosen = player.programmers.get(decision - 1);
                     this.programmers.add(chosen);
                     player.programmers.remove(chosen);
                     System.out.println("Zwolniony pracownik jest dostępny do ponownej rekrutacji");
                         return true;
-                } else if(decision - 1 <= programmers.size() + testers.size()){
-                    Tester chosen = player.testers.get(decision - 1 - programmers.size());
+                } else if(decision - 1 < player.programmers.size() + player.testers.size()){
+                    Tester chosen = player.testers.get(decision - 1 - player.programmers.size());
                     this.testers.add(chosen);
                     player.testers.remove(chosen);
                     System.out.println("Pracownik został zwolniony");
                     return true;
                 } else {
-                    Seller chosen = player.sellers.get(decision - 1 - programmers.size() - testers.size());
+                    Seller chosen = player.sellers.get(decision - 1 - player.programmers.size() - player.testers.size());
                     this.sellers.add(chosen);
                     player.sellers.remove(chosen);
                     System.out.println("Pracownik został zwolniony");
@@ -631,22 +631,69 @@ public class Game {
             if(project.paymentTime > 0){
                 project.paymentTime--;
             } else {
-                if(ThreadLocalRandom.current().nextDouble(0.0, 100.0 + 1.0) < project.testingPoints * project.PROJECTS_CHANCE_TO_FAIL_PER_TESTING_POINT){
-                    //klient ma wkurw
+                if(ThreadLocalRandom.current().nextDouble(1.0, 100.0 + 1.0) < project.testingPoints * project.PROJECTS_CHANCE_TO_FAIL_PER_TESTING_POINT){
+                    System.out.println("Klient ma zażalenia co do oddanego projektu, który miał pewne problemy...");
+                    switch (project.client.personality){
+                        case DEMANDING: {
+                            if(ThreadLocalRandom.current().nextInt(1, 100 + 1) <= 50){
+                                System.out.println("i wycofał się z umowy. Zapłata przepadła. Zaliczka, jeżeli była, zostaje");
+                                project.finalized = true;
+                            } else {
+                                System.out.println("Ale nie wycofał się z umowy i zapłaci za projekt");
+                            }
+                            break;
+                        }
+                        case CHILL: {
+                            System.out.println("Ale nie wycofał się z umowy i zapłaci za projekt");
+                            break;
+                        }
+                        case SONOFAB: {
+                            System.out.println("i wycofał się z umowy. Zapłata przepadła. Zaliczka, jeżeli była, zostaje");
+                            project.finalized = true;
+                            break;
+                        }
+                    }
                 } else {
-                    //Wszystko w porzo
-                }
-
-
-
-
-                if(!doClientDelaysPayment(project)){
-                    // Gracz dostaje zapłatę, warunki zwycięstwa jeżeli działają, projekt przestaje nas interesować
-                } else {
-                    // Opóźnienie
+                    if(!project.finalized){
+                        if(doClientDelaysPayment(project)){
+                            project.testingPoints = 0;
+                            switch (project.client.personality){
+                                case CHILL: {
+                                    if(ThreadLocalRandom.current().nextInt(1, 100 + 1) <= 30){
+                                        System.out.println("Ponieważ powody, klient musi opóźnić zapłatę za projekt o " + project.LIGHTLY_PAYMENT_DELAY + " dni");
+                                        project.paymentTime += project.LIGHTLY_PAYMENT_DELAY;
+                                        project.delayedPayment = true;
+                                        return;
+                                    }
+                                    break;
+                                }
+                                case SONOFAB: {
+                                    int diceRoll = ThreadLocalRandom.current().nextInt(1, 100 + 1);
+                                    if(diceRoll <= 1){
+                                        System.out.println("Wszelki kontakt z klientem sięurwał. Projekt można uznać za stracony");
+                                        project.finalized = true;
+                                        return;
+                                    } else if(diceRoll <= 6){
+                                        System.out.println("Z poważnych powodów, klient opóźnia zapłatę za projekt o " + project.SEVERE_PAYMENT_DELAY + " dni i mówi, że dobrze że w ogóle dostajesz za to zapłatę");
+                                        project.paymentTime += project.SEVERE_PAYMENT_DELAY;
+                                        project.delayedPayment = true;
+                                        return;
+                                    } else if(diceRoll <= 36) {
+                                        System.out.println("Ponieważ powody, klient musi opóźnić zapłatę za projekt o " + project.LIGHTLY_PAYMENT_DELAY + " dni");
+                                        project.paymentTime += project.LIGHTLY_PAYMENT_DELAY;
+                                        project.delayedPayment = true;
+                                        return;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        endingProject(player, project);
+                    }
                 }
             }
         }
+
     }
 
     public void advanceActiveProjects(Player player){
@@ -683,27 +730,18 @@ public class Game {
 
     public Boolean doClientDelaysPayment(Project project) {
         if (!project.delayedPayment) {
+            project.delayedPayment = true;
             switch (project.client.personality) {
                 case DEMANDING: {
                     return false;
                 }
                 case CHILL: {
-                    if (ThreadLocalRandom.current().nextInt(1, 10 + 1) <= 3) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return ThreadLocalRandom.current().nextInt(1, 10 + 1) <= 3;
                 }
                 case SONOFAB: {
-                    if (ThreadLocalRandom.current().nextInt(1, 100 + 1) <= 35) {
-                        return true;
-                    } else {
-                        return false;
-                    }
+                    return ThreadLocalRandom.current().nextInt(1, 100 + 1) <= 36;
                 }
             }
-        } else {
-            return false;
         }
         return false;
     }
@@ -715,12 +753,27 @@ public class Game {
             } else {
                 System.out.println("W ramach kary za spóźnienie " + (-1) * project.deadline + " dni, reszta zapłaty " + project.payment + " została zmniejszona o " + delayFee(project));
                    project.payment -= delayFee(project);
+                   project.receivedFee = true;
             }
+        } else {
+            System.out.println("Projekt dostarczony na czas");
         }
+
     }
     
     public Double delayFee(Project project){
         return (project.payment - project.advance) * (project.deadline / (project.deadline - 1));
+    }
+
+    public void endingProject(Player player, Project project){
+        project.finalized = true;
+        player.cash += project.payment - project.advance;
+        if(project.complexity == Project.Complexity.COMPLEX & !project.playerHasContributed){
+            player.majorCounter++;
+            if(project.acquiredBySeller){
+                player.usingSeller = true;
+            }
+        }
     }
 }
 
