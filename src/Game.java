@@ -768,7 +768,7 @@ public class Game {
     public void endingProject(Player player, Project project){
         project.finalized = true;
         player.cash += project.payment - project.advance;
-        if(project.complexity == Project.Complexity.COMPLEX & !project.playerHasContributed){
+        if(project.complexity == Project.Complexity.COMPLEX & !project.playerHasContributed & !project.receivedFee){
             player.majorCounter++;
             if(project.acquiredBySeller){
                 player.usingSeller = true;

@@ -31,19 +31,17 @@ W trakcie swojej tury gracz może nie tracąc tury
 3 - przejrzeć dostępnych pracowników
 4 - sprawdzić stan konta
 
+Projekt dostarczony do klienta czeka określony czas, by zostać sfinalizowany.
+Oddany projekt, jeżeli przekroczył swój deadline, może w zależności od klienta nałożyć karę i zmniejszyć zapłatę.
+W trakcie finalizacji, jeżeli projekt nie był dostatecznie testowany, może mieć problemy i zależnie od klienta, może zostać kontrakt zerwany bez pokrycia kosztów.
+Jeżeli projekt przetrwa finalizację, zależnie od klienta, projekt zostaje zapłacony od razu lub zapłata może być przesunięta (ale tylko raz).
+
 Gra trwa tak długo, aż wszyscy gracze odpadną lub pierwsza osoba 
 odbierze całą zapłatę za 3 skomplikowane projekty w ramach których nie wykonał żadnych prac programistycznych ani testerskich, z których co najmniej 1 został pozyskany przez zatrudnionego sprzedawcę
 
 
 
 Brakujące/niedokończone elementy:
-
-
-
-oczekiwanie na zapłate za nie lub na problemy wynikające z braku testów
-
-
-
 
 Obecnie niemal wszędzie umiejętności programistyczne są przedstawione jako niewiele mówiące tablice 0 i 1. Brakuje im oznaczeń
 
@@ -55,7 +53,7 @@ Skills
 -Wordpress
 -Prestashop
 
-Podwykonawcy są niewytłumaczeni, dlatego jeszczę przemyślię czy zostaną wprowadzeni
+Podwykonawcy są niewytłumaczeni, dlatego jeszczę przemyślię czy i jak zostaną wprowadzeni
 
 Podwykonawcy
 -najlepszy uczeń - najdroższy, ale robi na czas i bez błędów
@@ -63,19 +61,11 @@ Podwykonawcy
 -koleś, który wie wszystko najlepiej - najtańszy, 20% ryzyka że się spóźni i 20% ryzyka że będzie trzeba po nim poprawiać.
 Na początku każdej rozgrywki wylosuj zestaw umiejętności dla każdego z nich.
 
-
-Warunki zwycięstwa
-pełnej zapłaty za 3 duże projekty, w ramach których właściciel firmy nie wykonał żadnych prac programistycznych ani testerskich, z których co najmniej 1 został pozyskany przez zatrudnionego sprzedawcę
-
 Funkcjonalności dodatkowe
 -Dodaj obsługę projektów, które mają kilka etapów (10%) - częściej musisz poświęcać czas na oddanie prac, ale częściej dostajesz pieniądze.
-
-Testowanie
--Gdy dochodzi do rozliczenia każdy punkt testowy dodaje 2% szansy na to, że projekt nawali i zależnie od klienta będzie rozwiązanie
-
 
 Dodanie zabezpieczeń idiotproof
 - wszędzie gdzie oczekuje się liczb trzeba sprawdzać, czy dostaje się liczby
 - Można poblokować niektóre aktywności gdy są one niepotrzebne np. biurokrację kiedy nie ma na to potrzeby w miesiącu
 
-Ulepszyć kod (Powtarzający się kod zastąpić instacjami jednego kodu, usunąć ostrzeżenia e.t.c)
+Ulepszyć kod (Powtarzający się kod zastąpić instacjami jednego kodu, usunąć ostrzeżenia, zrefaktoryzować co trzeba e.t.c)
