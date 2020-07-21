@@ -40,16 +40,10 @@ Brakujące/niedokończone elementy:
 
 
 
-Oddawanie skończonych projektów i oczekiwanie na zapłate za nie lub na problemy wynikające z braku testów
+oczekiwanie na zapłate za nie lub na problemy wynikające z braku testów
 
-Przez cały okres od oddania projektu aż do otrzymania zapłaty każdy punkt testowy będzie generował chyba 2% szansy na to, że coś się popsuje. Zależnie od klienta będzie to miało różne efekty
 
-Każdy projekt ma klienta ale brakuje obsługi klientów przy oddawaniu projektów
 
-Klient
-- wyluzowanych - 30% szans na opóźnienie płatności o tydzień, ale też 20% szans na uniknięcie kary za opóźnienie, jeżeli nie jest większe niż tydzień, oddanie niedziałającego projektu nie powoduje dodatkowych problemów
-- wymagających - 0% szans na opóźnienie płatności, 0% szans na uniknięcie kary, oddanie niedziałającego projektu to 50% szans na utratę kontraktu bez zwrotu kosztów
-- skrwl - 30% szans na opóźnienie płatności o tydzień, 5% szans na opóźnienie płatności o miesiąc, 0% szans na uniknięcie kary, 100% szans na utratę kontraktu po oddaniu niedziałającego projektu, 1% szans nie nieuzyskanie płatności nigdy
 
 Obecnie niemal wszędzie umiejętności programistyczne są przedstawione jako niewiele mówiące tablice 0 i 1. Brakuje im oznaczeń
 
@@ -70,10 +64,6 @@ Podwykonawcy
 Na początku każdej rozgrywki wylosuj zestaw umiejętności dla każdego z nich.
 
 
-Brakujące akcje w turze każdego gracza
--oddać gotowy projekt klientowi - to wymaga utworzenie w graczu nowej listy projektów finalizowanych, gdzie czekają od oddania do zapłaty i patrzy się, czy punkty testów coś zepsują
-
-
 Warunki zwycięstwa
 pełnej zapłaty za 3 duże projekty, w ramach których właściciel firmy nie wykonał żadnych prac programistycznych ani testerskich, z których co najmniej 1 został pozyskany przez zatrudnionego sprzedawcę
 
@@ -81,11 +71,11 @@ Funkcjonalności dodatkowe
 -Dodaj obsługę projektów, które mają kilka etapów (10%) - częściej musisz poświęcać czas na oddanie prac, ale częściej dostajesz pieniądze.
 
 Testowanie
--Nie było to wyjaśnione, więc każdy punkt testowania daje 2% szansu dziennie na to, że oddawany projekt nie będzie działał
--konsekwencje niedziałającego projektu
+-Gdy dochodzi do rozliczenia każdy punkt testowy dodaje 2% szansy na to, że projekt nawali i zależnie od klienta będzie rozwiązanie
+
 
 Dodanie zabezpieczeń idiotproof
 - wszędzie gdzie oczekuje się liczb trzeba sprawdzać, czy dostaje się liczby
 - Można poblokować niektóre aktywności gdy są one niepotrzebne np. biurokrację kiedy nie ma na to potrzeby w miesiącu
 
-Zobaczyćczy następujące tury zmniejszają deadline.
+Ulepszyć kod (Powtarzający się kod zastąpić instacjami jednego kodu, usunąć ostrzeżenia e.t.c)
